@@ -1,0 +1,67 @@
+seed: 42
+data:
+  train_path: data/train.jsonl
+  val_path: data/val.jsonl
+  test_path: data/test.jsonl
+  max_seq_len: 50
+  num_workers: 0
+  # Order matters: becomes channel index C.
+  attribute_names:
+    - item_id_hash
+    - seller_id_hash
+    - user_id_hash
+    - price_bin
+    - condition
+    - level1_category
+    - leaf_category
+    - sale_type
+    - site_id
+    - position_id
+    - snapshot_id_hash
+    - interaction_type
+    - hour
+    - day
+    - weekday
+    - relative_snapshot_position
+  # Per-channel vocab sizes (including 0=padding index).
+  vocab_sizes:
+    item_id_hash: 50000
+    seller_id_hash: 50000
+    user_id_hash: 50000
+    price_bin: 101
+    condition: 10
+    level1_category: 100
+    leaf_category: 1000
+    sale_type: 20
+    site_id: 20
+    position_id: 300
+    snapshot_id_hash: 200000
+    interaction_type: 4
+    hour: 25
+    day: 32
+    weekday: 8
+    relative_snapshot_position: 300
+  hash_mod:
+    item_id_hash: 49999
+    seller_id_hash: 49999
+    user_id_hash: 49999
+    snapshot_id_hash: 199999
+
+model:
+  d_model: 16
+  num_heads: 4
+  num_layers: 1
+  dropout: 0.3
+
+train:
+  batch_size: 32
+  epochs: 5
+  lr: 0.001
+  betas: [0.9, 0.999]
+  weight_decay: 0.00001
+  grad_clip_norm: 1.0
+  lr_decay_by_10_from_epoch2: false
+  early_stopping_patience: 3
+
+metrics:
+  ks: [1, 2, 5]
